@@ -34,7 +34,7 @@ const Trader = ({ trader }: Props) => {
     }
 
     const onDelete = async () => {
-        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/accounts/${id}`, { method: "DELETE" })
+        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/traders/${id}`, { method: "DELETE" })
         router.refresh()
     }
 
