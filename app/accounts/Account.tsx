@@ -42,15 +42,26 @@ const Account = ({ account }: Props) => {
     }
 
     return (
-        <tr>
-            <td>{id}</td>
-            <td>{name}</td>
-            <td><input type="checkbox" defaultChecked={active} onChange={onChange} /></td>
-            <td><input type="number" value={leverage} onChange={(e) => setLeverage(Number(e.target.value))} /></td>
-            <td><input type="number" value={bankroll} onChange={(e) => setBankroll(Number(e.target.value))} /></td>
-            <td><button onClick={onSubmit}>submit</button></td>
-            <td><button onClick={onDelete}>delete</button></td>
-        </tr>
+        <div className='flex justify-between items-center text-white font-satoshi'>
+            <div className='w-10'><p className='text-xl'>{id}</p></div>
+            <div className='w-50'><p className='text-xl'>{name}</p></div>
+            <div className='w-20 mx-6'>
+                <label htmlFor="active">Bot</label>
+                <input className='ml-2' name='active' type="checkbox" defaultChecked={active} onChange={onChange} />
+            </div>
+            <div className="rounded-full from-green-400 via-blue-500 to-purple-500 bg-gradient-to-br m-4 p-1 w-30">
+                <input className='rounded-full p-2 text-black w-full' type="number" value={leverage} onChange={(e) => setLeverage(Number(e.target.value))} />
+            </div>
+            <div className="rounded-full from-green-400 via-blue-500 to-purple-500 bg-gradient-to-br mx-4 p-1 w-30">
+                <input className='rounded-full p-2 text-black w-full' type="number" value={bankroll} onChange={(e) => setBankroll(Number(e.target.value))} />
+            </div>
+            <div><button className="m-4 p-1 rounded-full from-green-400 via-blue-500 to-purple-500 bg-gradient-to-br" onClick={onSubmit}>
+                <span className="block text-black rounded-full px-4 py-2 bg-white hover:bg-transparent hover:text-white transition">Valider</span>
+            </button></div>
+            <div><button className="m-4 p-1 rounded-full from-green-400 via-blue-500 to-purple-500 bg-gradient-to-br" onClick={onDelete}>
+                <span className="block text-black rounded-full px-4 py-2 bg-white hover:bg-transparent hover:text-white transition">Supprimer</span>
+            </button></div>
+        </div>
     )
 }
 

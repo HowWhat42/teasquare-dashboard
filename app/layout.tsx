@@ -12,18 +12,9 @@ export default function RootLayout({
     <html>
       <head></head>
       <body className='bg-main bg-cover backdrop-blur-lg h-full'>
-        <main className='m-16 bg-slate-600 bg-opacity-75 rounded-2xl'>
-          <nav>
-            <Link href="/">
-              Home
-            </Link>
-            <Link href="/accounts">
-              Accounts
-            </Link>
-            <Link href="/traders">
-              Traders
-            </Link>
-          </nav>
+        <main>
+          <h1 className="font-space font-semibold text-6xl text-white text-center my-12">TeaSquare Dashboard</h1>
+          {/* <div className='w-60 h-60 bg-black blur-3xl absolute' /> */}
           {children}
         </main>
       </body>
