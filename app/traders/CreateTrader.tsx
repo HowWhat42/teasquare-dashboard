@@ -15,7 +15,7 @@ const CreateTrader = () => {
                 name,
                 url,
             }
-            const trader = await fetch("http://localhost:3001/api/traders", {
+            const trader = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/traders`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(newTrader),

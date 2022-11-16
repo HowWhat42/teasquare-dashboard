@@ -1,6 +1,7 @@
+"use client"
 /* eslint-disable @next/next/no-head-element */
 import Link from 'next/link';
-import './global.css';
+import '../styles/dist.css';
 
 export default function RootLayout({
   children,
@@ -10,8 +11,8 @@ export default function RootLayout({
   return (
     <html>
       <head></head>
-      <body>
-        <main>
+      <body className='bg-main bg-cover backdrop-blur-lg h-full'>
+        <main className='m-16 bg-slate-600 bg-opacity-75 rounded-2xl'>
           <nav>
             <Link href="/">
               Home

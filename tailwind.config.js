@@ -1,3 +1,5 @@
+const { url } = require('inspector');
+
 /** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
@@ -6,7 +8,15 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}"
   ],
   theme: {
-    extend: {},
+    extend: {
+      fontFamily: {
+        satoshi: ['Satoshi', 'Sans-Serif'],
+        space: ['Space Grotesk', 'Sans-Serif'],
+      },
+      backgroundImage: {
+        'main': "url('../public/img/background.png')"
+      }
+    },
   },
   plugins: [],
 }

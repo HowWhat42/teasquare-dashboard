@@ -17,7 +17,7 @@ const CreateAccount = () => {
                 apiKey,
                 apiSecret,
             }
-            const account = await fetch("http://localhost:3001/api/accounts", {
+            const account = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/accounts`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(newAccount),
