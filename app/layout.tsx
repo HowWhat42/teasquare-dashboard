@@ -13,8 +13,9 @@ export default function RootLayout({
       <head></head>
       <body className='bg-main bg-cover backdrop-blur-lg h-full'>
         <main>
-          <h1 className="font-space font-semibold text-6xl text-white text-center my-12">TeaSquare Dashboard</h1>
-          {/* <div className='w-60 h-60 bg-black blur-3xl absolute' /> */}
+          <Link href='/'>
+            <h1 className="font-space font-semibold text-6xl text-white text-center my-12">TeaSquare Dashboard</h1>
+          </Link>
           {children}
         </main>
       </body>

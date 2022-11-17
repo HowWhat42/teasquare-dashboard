@@ -1,6 +1,7 @@
 'use client'
 import { useState } from 'react'
 import { useRouter } from "next/navigation"
+import Link from 'next/link'
 
 type Props = {
     account: {
@@ -44,21 +45,29 @@ const Account = ({ account }: Props) => {
     return (
         <div className='flex justify-between items-center text-white font-satoshi'>
             <div className='w-10'><p className='text-xl'>{id}</p></div>
-            <div className='w-50'><p className='text-xl'>{name}</p></div>
+            <Link href={`accounts/${id}`} className='w-50'>
+                <p className='text-xl from-green-400 via-blue-500 to-purple-500 bg-gradient-to-br bg-clip-text text-white hover:text-transparent transition cursor-pointer'>{name}</p>
+            </Link>
             <div className='w-20 mx-6'>
                 <label htmlFor="active">Bot</label>
                 <input className='ml-2' name='active' type="checkbox" defaultChecked={active} onChange={onChange} />
             </div>
-            <div className="rounded-full from-green-400 via-blue-500 to-purple-500 bg-gradient-to-br m-4 p-1 w-30">
-                <input className='rounded-full p-2 text-black w-full' type="number" value={leverage} onChange={(e) => setLeverage(Number(e.target.value))} />
+            <div className='flex flex-col text-center'>
+                <label htmlFor="maxLeverage">Levier max</label>
+                <div className="rounded-full from-green-400 via-blue-500 to-purple-500 bg-gradient-to-br mx-4 p-1 w-30">
+                    <input name='maxLeverage' className='rounded-full p-2 text-black w-full' type="number" value={leverage} onChange={(e) => setLeverage(Number(e.target.value))} />
+                </div>
             </div>
-            <div className="rounded-full from-green-400 via-blue-500 to-purple-500 bg-gradient-to-br mx-4 p-1 w-30">
-                <input className='rounded-full p-2 text-black w-full' type="number" value={bankroll} onChange={(e) => setBankroll(Number(e.target.value))} />
+            <div className='flex flex-col text-center'>
+                <label htmlFor="bankrollSize">Taille de position (en %)</label>
+                <div className="rounded-full from-green-400 via-blue-500 to-purple-500 bg-gradient-to-br mx-4 p-1 w-30">
+                    <input name='bankrollSize' className='rounded-full p-2 text-black w-full' type="number" value={bankroll} onChange={(e) => setBankroll(Number(e.target.value))} />
+                </div>
             </div>
-            <div><button className="m-4 p-1 rounded-full from-green-400 via-blue-500 to-purple-500 bg-gradient-to-br" onClick={onSubmit}>
+            <div className='mt-5'><button className="m-4 p-1 rounded-full from-green-400 via-blue-500 to-purple-500 bg-gradient-to-br" onClick={onSubmit}>
                 <span className="block text-black rounded-full px-4 py-2 bg-white hover:bg-transparent hover:text-white transition">Valider</span>
             </button></div>
-            <div><button className="m-4 p-1 rounded-full from-green-400 via-blue-500 to-purple-500 bg-gradient-to-br" onClick={onDelete}>
+            <div className='mt-5'><button className="m-4 p-1 rounded-full from-green-400 via-blue-500 to-purple-500 bg-gradient-to-br" onClick={onDelete}>
                 <span className="block text-black rounded-full px-4 py-2 bg-white hover:bg-transparent hover:text-white transition">Supprimer</span>
             </button></div>
         </div>
