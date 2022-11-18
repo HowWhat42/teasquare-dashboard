@@ -36,7 +36,7 @@ const getPNLROI = (trades: trade[]) => {
         if (!trade.open) {
             const fees = trade.size * trade.entryPrice * 0.0006 + trade.size * trade.closingPrice * 0.0006
             const pnl = trade.size * trade.entryPrice * trade.percent / 100 - fees
-            invested += trade.size * trade.entryPrice
+            invested += trade.size * trade.entryPrice / trade.leverage
             pnlSum += pnl
         }
     })
