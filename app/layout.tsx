@@ -10,7 +10,11 @@ export default function RootLayout({
 }) {
   return (
     <html>
-      <head></head>
+      <head>
+        <meta charSet="utf-8" />
+        <meta name="viewport" content="initial-scale=1.0, width=device-width" />
+        <title>TeaSquare - Dashboard</title>
+      </head>
       <body className='bg-main bg-cover backdrop-blur-lg h-full'>
         <main>
           <Link href='/'>
