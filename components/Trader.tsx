@@ -41,7 +41,7 @@ const Trader = ({ trader }: Props) => {
     return (
         <div className="font-satoshi flex justify-between items-center text-white">
             <div className="w-10"><p className="text-xl">{id}</p></div>
-            <div className="w-40"><a className="text-xl from-green-400 via-blue-500 to-purple-500 bg-gradient-to-br bg-clip-text text-white hover:text-transparent transition" href={url} target='_blank'>{name}</a></div>
+            <div className="w-40"><a className="text-xl from-green-400 via-blue-500 to-purple-500 bg-gradient-to-br bg-clip-text text-white hover:text-transparent transition" href={url} target='_blank' rel="noreferrer">{name}</a></div>
             <div className="w-40 mx-6">
                 <label htmlFor="telegram">Telegram</label>
                 <input className="ml-2" name="telegram" type='checkbox' defaultChecked={telegram} onChange={setTelegram} />

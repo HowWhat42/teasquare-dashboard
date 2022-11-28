@@ -26,7 +26,7 @@ type Props = {
     trades: trade[]
 }
 
-const page = ({ account, trades }: Props) => {
+const Page = ({ account, trades }: Props) => {
     const session = useSession()
     const supabase = useSupabaseClient()
     return (
@@ -55,11 +55,10 @@ const page = ({ account, trades }: Props) => {
                 </div>
             )}
         </div>
-
     )
 }
 
-export default page
+export default Page
 
 export const getServerSideProps: GetServerSideProps = async ({ params }) => {
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/accounts/${params?.id}`)
