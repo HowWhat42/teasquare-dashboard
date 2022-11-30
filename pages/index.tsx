@@ -1,5 +1,6 @@
 import { GetServerSideProps } from "next"
 import Link from "next/link"
+import Head from "next/head"
 import AccountsBoard from "../components/AccountsBoard"
 import TradersBoard from "../components/TradersBoard"
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
@@ -17,17 +18,20 @@ const HomePage = ({ accounts, traders }: Props) => {
 
     return (
         <div>
+            <Head>
+                <title>TeaSquare - Dashboard</title>
+            </Head>
             {!session ? (
                 <LoginForm supabaseClient={supabase} />
             ) : (
-                <div className='bg-main bg-cover backdrop-blur-lg h-full pb-16'>
+                <div className='bg-main bg-cover backdrop-blur-lg h-full'>
                     <div className='flex flex-row items-center justify-center'>
                         <Link href='/'>
                             <h1 className="font-space font-semibold text-6xl text-white text-center my-12">TeaSquare Dashboard</h1>
                         </Link>
                         <LoginButton supabaseClient={supabase} session={session} />
                     </div>
-                    <div className='flex justify-between z-10' >
+                    <div className='flex flex-col lg:flex-row lg:justify-between' >
                         <AccountsBoard accounts={accounts} />
                         <TradersBoard traders={traders} />
                     </div>

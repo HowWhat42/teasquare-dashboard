@@ -3,6 +3,7 @@ import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import Account from '../../components/Account'
 import Stats from '../../components/Stats'
 import Link from 'next/link'
+import Head from "next/head"
 import LoginForm from '../../components/LoginForm'
 
 export type trade = {
@@ -31,6 +32,9 @@ const Page = ({ account, trades }: Props) => {
     const supabase = useSupabaseClient()
     return (
         <div>
+            <Head>
+                <title>TeaSquare - Compte</title>
+            </Head>
             {!session ? (
                 <LoginForm supabaseClient={supabase} />
             ) : (

@@ -34,7 +34,7 @@ const CreateAccount = () => {
 
     return (
         <div>
-            <h2 className="text-2xl font-satoshi from-green-400 via-blue-500 to-purple-500 bg-gradient-to-br bg-clip-text text-transparent">Ajouter un compte Bybit</h2>
+            <h2 className="text-xl lg:text-2xl font-satoshi from-green-400 via-blue-500 to-purple-500 bg-gradient-to-br bg-clip-text text-transparent">Ajouter un compte Bybit</h2>
             <form className="font-satoshi" onSubmit={onSubmit}>
                 <label htmlFor="username" className="text-md font-satoshi text-white">Name</label>
                 <div className="rounded-full from-green-400 via-blue-500 to-purple-500 bg-gradient-to-br p-1 w-full my-2">

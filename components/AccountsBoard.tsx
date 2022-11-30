@@ -7,8 +7,8 @@ type Props = {
 
 const AccountsBoard = ({ accounts }: Props) => {
     return (
-        <div className="bg-gray-700 rounded-2xl mx-16 p-6">
-            <h3 className="text-4xl font-space text-white">Liste des comptes Bybit</h3>
+        <div className="bg-gray-700 rounded-2xl m-8 p-6 w-full">
+            <h3 className="text-2xl lg:text-4xl font-space text-white">Liste des comptes Bybit</h3>
             <div className="from-green-400 via-blue-500 to-purple-500 bg-gradient-to-r h-0.5 my-2" />
             <CreateAccount />
             <div className="from-green-400 via-blue-500 to-purple-500 bg-gradient-to-r h-0.5 my-2" />
