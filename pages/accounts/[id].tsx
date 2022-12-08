@@ -1,4 +1,4 @@
-import { GetServerSideProps } from 'next'
+import { useState, useEffect } from 'react'
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import Account from '../../components/Account'
 import Stats from '../../components/Stats'
@@ -40,15 +40,36 @@ export type position = {
 type Props = {
     account: any
     trades: trade[]
-    balance: balance
-    positions: position[]
+    params: any
 }
 
-const Page = ({ account, trades, balance, positions }: Props) => {
+const Page = ({ account, trades, params }: Props) => {
     const session = useSession()
     const supabase = useSupabaseClient()
     const redGradient = 'from-red-400 to-orange-500'
     const greenGradient = 'from-green-400 to-green-600'
+    const [balance, setBalance] = useState<balance | undefined>()
+    const [positions, setPositions] = useState<position[] | []>([])
+    const [balanceLoading, setBalanceLoading] = useState(false)
+    const [positionLoading, setPositionLoading] = useState(false)
+
+    useEffect(() => {
+        setBalanceLoading(true)
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/accounts/${params.id}/balance`).then(res => res.json().then(data => {
+            setBalance(data)
+            setBalanceLoading(false)
+        }))
+
+    }, [])
+
+    useEffect(() => {
+        setPositionLoading(true)
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/accounts/${params.id}/positions`).then(res => res.json().then(data => {
+            setPositions(data)
+            setPositionLoading(false)
+        }))
+    }, [])
+
     return (
         <div>
             <Head>
@@ -67,7 +88,7 @@ const Page = ({ account, trades, balance, positions }: Props) => {
                         <div className="bg-gray-700 rounded-2xl mx-16 p-6 w-full">
                             <div className='flex justify-between'>
                                 <h2 className='text-white font-satoshi text-3xl'>Détails du compte</h2>
-                                {balance && <div className='text-right'>
+                                {balanceLoading ? <p className='text-white font-satoshi'>Loading</p> : balance && <div className='text-right'>
                                     <p className='text-white font-satoshi'>Total: {balance.total.toFixed(2)}$</p>
                                     <p className='text-white font-satoshi'>Equité: {balance.equity.toFixed(2)}$</p>
                                     <p className={`${balance.unrealised > 0 ? greenGradient : redGradient} bg-gradient-to-br bg-clip-text text-transparent`}>PNL non réalisé: {balance.unrealised.toFixed(2)}$</p>
@@ -75,7 +96,7 @@ const Page = ({ account, trades, balance, positions }: Props) => {
                             </div>
                             <div className="from-green-400 via-blue-500 to-purple-500 bg-gradient-to-r h-0.5 my-2" />
                             <Account account={account} />
-                            {positions.length > 0 ? positions.map((position, i) => <Position key={i} position={position} />) : <p className={`${redGradient} bg-gradient-to-br bg-clip-text text-transparent`}>Non autorisé<br />Modifier API Bybit</p>}
+                            {positionLoading ? <p className='text-white font-satoshi'>Loading</p> : positions.map((position, i) => <Position key={i} position={position} />)}
                         </div>
                         <div className='bg-gray-700 rounded-2xl mx-16 p-6 w-1/3'>
                             <h2 className='text-white font-satoshi text-3xl'>Statistiques</h2>
@@ -91,22 +112,34 @@ const Page = ({ account, trades, balance, positions }: Props) => {
 
 export default Page
 
-export const getServerSideProps: GetServerSideProps = async ({ params }) => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/accounts/${params?.id}`)
+export const getStaticPaths = async () => {
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/accounts`)
+    const data = await res.json()
+
+    const paths = data.map((account: any) => {
+        return {
+            params: { id: account.id.toString() }
+        }
+    })
+
+    return {
+        paths,
+        fallback: false
+    }
+}
+
+export const getStaticProps = async (context: any) => {
+    const id = context.params.id
+    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/accounts/${id}`)
     const account = await res.json()
-    const res2 = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/trades/account/${params?.id}`)
+    const res2 = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/trades/account/${id}`)
     const trades = await res2.json()
-    const res3 = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/accounts/${params?.id}/balance`)
-    const balance = await res3.json()
-    const res4 = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/accounts/${params?.id}/positions`)
-    const positions = await res4.json()
 
     return {
         props: {
             account,
             trades,
-            balance,
-            positions
+            params: context.params
         }
     }
 }
