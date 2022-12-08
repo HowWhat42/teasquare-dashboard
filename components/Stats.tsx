@@ -1,9 +1,10 @@
 import React from 'react'
 import { isAfter, sub, set } from 'date-fns'
-import { trade } from '../pages/accounts/[id]'
+import { balance, trade } from '../pages/accounts/[id]'
 
 type Props = {
     trades: trade[]
+    balance: balance | undefined
 }
 
 const getPNLROI = (trades: trade[]) => {
@@ -21,7 +22,7 @@ const getPNLROI = (trades: trade[]) => {
     return { roi, pnlSum }
 }
 
-const Stats = ({ trades }: Props) => {
+const Stats = ({ trades, balance }: Props) => {
     const now = set(Date.now(), { hours: 0, minutes: 0, seconds: 0, milliseconds: 0 })
     const monthlyTrades = trades.filter(trade => isAfter(new Date(trade.updatedAt), sub(now, { months: 1 })))
     const weeklyTrades = trades.filter(trade => isAfter(new Date(trade.updatedAt), sub(now, { weeks: 1 })))
@@ -51,7 +52,7 @@ const Stats = ({ trades }: Props) => {
             </div>
             <div>
                 <h4 className='font-satoshi text-xl text-white'>All</h4>
-                <p className={`${pnlSum > 0 ? greenGradient : redGradient} bg-gradient-to-br bg-clip-text text-transparent`}>PNL {pnlSum.toFixed(2)}$</p>
+                {balance && <p className={`${balance.pnl > 0 ? greenGradient : redGradient} bg-gradient-to-br bg-clip-text text-transparent`}>PNL {balance.pnl.toFixed(2)}$</p>}
                 <p className={`${roi > 0 ? greenGradient : redGradient} bg-gradient-to-br bg-clip-text text-transparent`}>ROI {roi.toFixed(2)}%</p>
             </div>
         </div>

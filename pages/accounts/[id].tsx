@@ -23,10 +23,11 @@ export type trade = {
     credentialId: number
 }
 
-type balance = {
+export type balance = {
     total: number
     equity: number
     unrealised: number
+    pnl: number
 }
 
 export type position = {
@@ -59,16 +60,12 @@ const Page = ({ account, trades, params }: Props) => {
             setBalance(data)
             setBalanceLoading(false)
         }))
-
-    }, [])
-
-    useEffect(() => {
         setPositionLoading(true)
         fetch(`${process.env.NEXT_PUBLIC_API_URL}/accounts/${params.id}/positions`).then(res => res.json().then(data => {
             setPositions(data)
             setPositionLoading(false)
         }))
-    }, [])
+    }, [params.id])
 
     return (
         <div>
@@ -101,7 +98,7 @@ const Page = ({ account, trades, params }: Props) => {
                         <div className='bg-gray-700 rounded-2xl mx-16 p-6 w-1/3'>
                             <h2 className='text-white font-satoshi text-3xl'>Statistiques</h2>
                             <div className="from-green-400 via-blue-500 to-purple-500 bg-gradient-to-r h-0.5 my-2" />
-                            <Stats trades={trades} />
+                            <Stats trades={trades} balance={balance} />
                         </div>
                     </div>
                 </div>
