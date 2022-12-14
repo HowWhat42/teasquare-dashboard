@@ -11,12 +11,10 @@ const getPNLROI = (trades: trade[]) => {
     let pnlSum = 0
     let invested = 0
     trades.map((trade) => {
-        if (!trade.open) {
-            const fees = trade.size * trade.entryPrice * 0.0006 + trade.size * trade.closingPrice * 0.0006
-            const pnl = trade.size / trade.leverage * trade.entryPrice * trade.percent / 100 - fees
-            invested += trade.size * trade.entryPrice / trade.leverage
-            pnlSum += pnl
-        }
+        const fees = trade.size * trade.entryPrice * 0.0006 + trade.size * trade.closingPrice * 0.0006
+        const pnl = trade.size / trade.leverage * trade.entryPrice * trade.percent / 100 - fees
+        invested += trade.size * trade.entryPrice / trade.leverage
+        pnlSum += pnl
     })
     const roi = pnlSum / invested * 100 || 0
     return { roi, pnlSum }
@@ -24,10 +22,10 @@ const getPNLROI = (trades: trade[]) => {
 
 const Stats = ({ trades, balance }: Props) => {
     const now = set(Date.now(), { hours: 0, minutes: 0, seconds: 0, milliseconds: 0 })
-    const monthlyTrades = trades.filter(trade => isAfter(new Date(trade.updatedAt), sub(now, { months: 1 })))
-    const weeklyTrades = trades.filter(trade => isAfter(new Date(trade.updatedAt), sub(now, { weeks: 1 })))
-    const dailyTrades = trades.filter(trade => isAfter(new Date(trade.updatedAt), now))
-    const { roi, pnlSum } = getPNLROI(trades)
+    const monthlyTrades = trades.filter(trade => isAfter(new Date(trade.updatedAt), sub(now, { months: 1 })) && !trade.open)
+    const weeklyTrades = trades.filter(trade => isAfter(new Date(trade.updatedAt), sub(now, { weeks: 1 })) && !trade.open)
+    const dailyTrades = trades.filter(trade => isAfter(new Date(trade.updatedAt), now) && !trade.open)
+    const { roi } = getPNLROI(trades)
     const { roi: monthlyRoi, pnlSum: monthlyPNL } = getPNLROI(monthlyTrades)
     const { roi: weeklyRoi, pnlSum: weeklyPNL } = getPNLROI(weeklyTrades)
     const { roi: dailyRoi, pnlSum: dailyPNL } = getPNLROI(dailyTrades)

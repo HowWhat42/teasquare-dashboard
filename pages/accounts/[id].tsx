@@ -40,19 +40,20 @@ export type position = {
 
 type Props = {
     account: any
-    trades: trade[]
     params: any
 }
 
-const Page = ({ account, trades, params }: Props) => {
+const Page = ({ account, params }: Props) => {
     const session = useSession()
     const supabase = useSupabaseClient()
     const redGradient = 'from-red-400 to-orange-500'
     const greenGradient = 'from-green-400 to-green-600'
     const [balance, setBalance] = useState<balance | undefined>()
     const [positions, setPositions] = useState<position[] | []>([])
+    const [trades, setTrades] = useState<trade[] | []>([])
     const [balanceLoading, setBalanceLoading] = useState(false)
     const [positionLoading, setPositionLoading] = useState(false)
+    const [tradesLoading, setTradesLoading] = useState(false)
 
     useEffect(() => {
         setBalanceLoading(true)
@@ -64,6 +65,11 @@ const Page = ({ account, trades, params }: Props) => {
         fetch(`${process.env.NEXT_PUBLIC_API_URL}/accounts/${params.id}/positions`).then(res => res.json().then(data => {
             setPositions(data)
             setPositionLoading(false)
+        }))
+        setTradesLoading(true)
+        fetch(`${process.env.NEXT_PUBLIC_API_URL}/trades/account/${params.id}`).then(res => res.json().then(data => {
+            setTrades(data)
+            setTradesLoading(false)
         }))
     }, [params.id])
 
@@ -98,7 +104,7 @@ const Page = ({ account, trades, params }: Props) => {
                         <div className='bg-gray-700 rounded-2xl mx-16 p-6 w-1/3'>
                             <h2 className='text-white font-satoshi text-3xl'>Statistiques</h2>
                             <div className="from-green-400 via-blue-500 to-purple-500 bg-gradient-to-r h-0.5 my-2" />
-                            <Stats trades={trades} balance={balance} />
+                            {tradesLoading ? <p className='text-white font-satoshi'>Loading</p> : <Stats trades={trades} balance={balance} />}
                         </div>
                     </div>
                 </div>
@@ -129,13 +135,10 @@ export const getStaticProps = async (context: any) => {
     const id = context.params.id
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/accounts/${id}`)
     const account = await res.json()
-    const res2 = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/trades/account/${id}`)
-    const trades = await res2.json()
 
     return {
         props: {
             account,
-            trades,
             params: context.params
         }
     }
