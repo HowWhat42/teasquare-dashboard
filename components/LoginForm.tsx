@@ -36,10 +36,9 @@ const LoginForm = ({ supabaseClient }: Props) => {
                 initialValues={{ email: '', password: '' }}
                 validationSchema={Yup.object({
                     email: Yup.string()
-                        .max(30, 'Must be 30 characters or less')
-                        .email('Invalid email address')
-                        .required('Please enter your email'),
-                    password: Yup.string().required('Please enter your password'),
+                        .email('Email non valide')
+                        .required('Email requis'),
+                    password: Yup.string().required('Mot de passe requis'),
                 })}
                 onSubmit={onSubmit}
             >

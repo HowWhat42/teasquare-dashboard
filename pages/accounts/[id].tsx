@@ -6,6 +6,7 @@ import Link from 'next/link'
 import Head from "next/head"
 import LoginForm from '../../components/LoginForm'
 import Position from '../../components/Position'
+import { GetServerSideProps } from 'next'
 
 export type trade = {
     id: number
@@ -99,7 +100,7 @@ const Page = ({ account, params }: Props) => {
                             </div>
                             <div className="from-green-400 via-blue-500 to-purple-500 bg-gradient-to-r h-0.5 my-2" />
                             <Account account={account} />
-                            {positionLoading ? <p className='text-white font-satoshi'>Loading</p> : positions.map((position, i) => <Position key={i} position={position} />)}
+                            {positionLoading ? <p className='text-white font-satoshi'>Loading</p> : (positions.length > 0 ? positions.map((position, i) => <Position key={i} position={position} />) : <p className='text-white font-satoshi'>Aucune position ouverte</p>)}
                         </div>
                         <div className='bg-gray-700 rounded-2xl mx-16 p-6 w-1/3'>
                             <h2 className='text-white font-satoshi text-3xl'>Statistiques</h2>
@@ -115,23 +116,7 @@ const Page = ({ account, params }: Props) => {
 
 export default Page
 
-export const getStaticPaths = async () => {
-    const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/accounts`)
-    const data = await res.json()
-
-    const paths = data.map((account: any) => {
-        return {
-            params: { id: account.id.toString() }
-        }
-    })
-
-    return {
-        paths,
-        fallback: false
-    }
-}
-
-export const getStaticProps = async (context: any) => {
+export const getServerSideProps: GetServerSideProps = async (context: any) => {
     const id = context.params.id
     const res = await fetch(`${process.env.NEXT_PUBLIC_API_URL}/accounts/${id}`)
     const account = await res.json()
