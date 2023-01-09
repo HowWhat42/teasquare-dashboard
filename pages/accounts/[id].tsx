@@ -37,6 +37,9 @@ export type position = {
     leverage: number
     value: number,
     side: 'Buy' | 'Sell'
+    percentage: number
+    marginMode: 'Isolé' | 'Croisé'
+    trader: string
 }
 
 type Props = {
