@@ -7,7 +7,7 @@ type Props = {
 const Trade = ({ trade }: Props) => {
     const onClose = async () => {
         if (window.confirm(`Êtes vous sûr de clôturer le trade ${trade.pair} ?`)) {
-            await fetch(`${process.env.NEXT_PUBLIC_API_URL}/trades/close/traders`, {
+            await fetch(`${process.env.NEXT_PUBLIC_API_URL}/trades/traders`, {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify({

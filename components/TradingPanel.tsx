@@ -17,12 +17,14 @@ const TradingPanel = (props: Props) => {
 
 
     const onSubmit = async () => {
-        await fetch(`${process.env.NEXT_PUBLIC_API_URL}/trades`, {
-            method: "POST",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({ pair: symbol, side: side ? "buy" : "sell", leverage, isolated: marginMode, bankrollPercentage: bankroll, limitPrice: limit, tp: takeProfit, sl: stopLoss }),
-        })
-        router.refresh()
+        if (window.confirm(`Êtes vous sûr d'envoyer le trade ${symbol} avec les paramètres suivant : \n - Levier : ${leverage}x \n - Mode : ${marginMode ? "Isolé" : "Croisé"} \n - Side : ${side ? 'LONG' : 'SHORT'} \n - Taille position : ${bankroll}% \n - Limit : ${limit} \n - Take Profit : ${takeProfit} \n - Stop Loss : ${stopLoss}`)) {
+            await fetch(`${process.env.NEXT_PUBLIC_API_URL}/trades`, {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify({ pair: symbol, side: side ? "buy" : "sell", leverage, isolated: marginMode, bankrollPercentage: bankroll, limitPrice: limit, tp: takeProfit, sl: stopLoss }),
+            })
+            router.refresh()
+        }
     }
 
     return (
@@ -30,7 +32,7 @@ const TradingPanel = (props: Props) => {
             <h2 className="text-xl lg:text-2xl font-satoshi from-green-400 via-blue-500 to-purple-500 bg-gradient-to-br bg-clip-text text-transparent">Trading Manuel</h2>
             <div className="from-green-400 via-blue-500 to-purple-500 bg-gradient-to-r h-0.5 my-2" />
             <div className="flex items-center justify-between text-sm lg:text-lg text-white font-satoshi">
-                <div className='flex flex-col text-center w-40'>
+                <div className='flex flex-col items-center text-center w-40'>
                     <label htmlFor="symbol">Symbol</label>
                     <div className="rounded-full from-green-400 via-blue-500 to-purple-500 bg-gradient-to-br mx-2 lg:mx-4 p-1 w-full">
                         <input name='symbol' className='rounded-full p-1 lg:p-2 text-black w-full' value={symbol} onChange={(e) => setSymbol(e.target.value.toUpperCase())} />
@@ -41,7 +43,7 @@ const TradingPanel = (props: Props) => {
                     <input className="ml-2" name="marginMode" type='checkbox' defaultChecked={marginMode} onChange={(e) => setMarginMode(e.target.checked)} />
                 </div>
                 <div className="w-20">
-                    <label htmlFor="side">Achat</label>
+                    <label htmlFor="side">LONG</label>
                     <input className="ml-2" name="side" type='checkbox' defaultChecked={side} onChange={(e) => setSide(e.target.checked)} />
                 </div>
                 <div className='flex flex-col items-center text-center'>

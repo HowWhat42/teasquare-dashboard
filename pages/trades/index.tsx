@@ -14,6 +14,7 @@ export type trade = {
     pair: string
     leverage: number
     size: number
+    status: string
     entryPrice: number
     side: 'buy' | 'sell'
     traders?: {
@@ -28,7 +29,7 @@ const TradesPage = (props: Props) => {
     const supabase = useSupabaseClient()
     const [trades, setTrades] = useState<trade[]>([])
     const [tradesLoading, setTradesLoading] = useState(false)
-    const filteredTrades = trades.filter((trade, index, self) => index === self.findIndex((t) => t.pair === trade.pair && t.side === trade.side));
+    const filteredTrades = trades.filter((trade, index, self) => index === self.findIndex((t) => t.pair === trade.pair && t.side === trade.side && t.status === "filled"));
 
     useEffect(() => {
         setTradesLoading(true)
@@ -37,8 +38,6 @@ const TradesPage = (props: Props) => {
             setTradesLoading(false)
         }))
     }, [])
-
-    console.log(trades)
 
     return (
         <div>
