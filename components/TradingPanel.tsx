@@ -31,7 +31,7 @@ const TradingPanel = (props: Props) => {
         <div className="bg-gray-700 rounded-2xl m-8 p-6">
             <h2 className="text-xl lg:text-2xl font-satoshi from-green-400 via-blue-500 to-purple-500 bg-gradient-to-br bg-clip-text text-transparent">Trading Manuel</h2>
             <div className="from-green-400 via-blue-500 to-purple-500 bg-gradient-to-r h-0.5 my-2" />
-            <div className="flex items-center justify-between text-sm lg:text-lg text-white font-satoshi">
+            <div className="flex flex-col lg:flex-row items-center justify-between text-sm lg:text-lg text-white font-satoshi">
                 <div className='flex flex-col items-center text-center w-40'>
                     <label htmlFor="symbol">Symbol</label>
                     <div className="rounded-full from-green-400 via-blue-500 to-purple-500 bg-gradient-to-br mx-2 lg:mx-4 p-1 w-full">

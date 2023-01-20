@@ -69,7 +69,7 @@ const Trader = ({ trader }: Props) => {
 
     return (
         <div>
-            <div className="font-satoshi flex justify-between items-center text-white">
+            <div className="font-satoshi flex flex-col lg:flex-row justify-between items-center text-white">
                 <div className="w-6"><p className="text-xl">{id}</p></div>
                 <div className="w-40"><a className="text-xl from-green-400 via-blue-500 to-purple-500 bg-gradient-to-br bg-clip-text text-white hover:text-transparent transition" href={url} target='_blank' rel="noreferrer">{name}</a></div>
                 <div className="w-24 mr-1">
