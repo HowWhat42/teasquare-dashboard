@@ -6,6 +6,7 @@ import TradersBoard from "../components/TradersBoard"
 import { useSession, useSupabaseClient } from '@supabase/auth-helpers-react'
 import LoginButton from "../components/LoginButton"
 import LoginForm from "../components/LoginForm"
+import TradingPanel from "../components/TradingPanel"
 
 type Props = {
     accounts: any[]
@@ -31,6 +32,7 @@ const HomePage = ({ accounts, traders }: Props) => {
                         </Link>
                         <LoginButton supabaseClient={supabase} session={session} />
                     </div>
+                    <TradingPanel />
                     <div className='flex flex-col lg:flex-row lg:justify-between' >
                         <AccountsBoard accounts={accounts} />
                         <TradersBoard traders={traders} />

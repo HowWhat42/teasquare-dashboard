@@ -32,6 +32,7 @@ export type balance = {
 }
 
 export type position = {
+    id: number
     symbol: string
     size: number
     leverage: number
